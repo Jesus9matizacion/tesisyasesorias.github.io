@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tesis y Asesorías</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Swiper -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+
+  <!-- Icons (Font Awesome) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    :root{
+      --bg:#0b0f14;
+      --surface:#11161d;
+      --muted:#9aa4b2;
+      --text:#e5e7eb;
+      --primary:#3b82f6;
+      --primary-2:#2563eb;
+      --accent:#16a34a;
+      --card:#121821;
+      --shadow:0 12px 40px rgba(0,0,0,.45);
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      line-height:1.6;
+      overflow-x:hidden;
+    }
+    a{color:inherit;text-decoration:none}
+
+    /* Header */
+    header{
+      position:fixed; inset:0 0 auto 0;
+      height:64px; padding:0 20px;
+      display:flex; align-items:center; justify-content:space-between;
+      background:rgba(11,15,20,.6);
+      backdrop-filter:saturate(160%) blur(8px);
+      border-bottom:1px solid rgba(255,255,255,.06);
+      z-index:1000;
+    }
+    .brand{font-weight:700; letter-spacing:.3px; display:flex; gap:10px; align-items:center}
+    .brand i{color: #25D366}
+    nav{display:flex; gap:22px; align-items:center}
+    nav a{color:var(--muted); font-weight:600; font-size:.93rem; padding:8px 10px; border-radius:10px; transition:.25s}
+    nav a:hover{color:var(--text); background:rgba(255,255,255,.06)}
+    .menu-toggle{display:none; font-size:1.4rem; cursor:pointer; border:0; background:transparent; color:var(--text)}
+
+    @media (max-width: 900px){
+      nav{display:none; position:absolute; top:64px; right:14px; background:rgba(17,22,29,.98); border:1px solid rgba(255,255,255,.06); padding:14px; border-radius:14px; width:min(84vw,320px); box-shadow:var(--shadow); flex-direction:column; align-items:stretch}
+      nav.active{display:flex}
+      nav a{padding:12px}
+      .menu-toggle{display:block}
+    }
+
+    /* Hero */
+    .hero{
+      position:relative;
+      min-height:100dvh;
+      display:grid;
+      place-items:center;
+      text-align:center;
+      padding:0 20px;
+      overflow:hidden;
+      isolation:isolate;
+      background:
+        radial-gradient(1200px 1200px at 80% -10%, rgba(37,99,235,.25), transparent 60%),
+        radial-gradient(900px 900px at -10% 110%, rgba(22,163,74,.18), transparent 60%),
+        var(--bg);
+    }
+    .hero-bg{
+      position:absolute; inset:-10% -10%;
+      background:url("https://images.unsplash.com/photo-1529101091764-c3526daf38fe?auto=format&fit=crop&w=1600&q=80") center/cover no-repeat;
+      opacity:.2;
+      will-change:transform;
+      transform:translateY(0);
+      z-index:-1;
+    }
+    .hero h1{font-size:clamp(2rem,4.8vw,3.8rem); line-height:1.15; margin:0 0 14px}
+    .hero p{max-width:780px; margin:0 auto 26px; color:var(--muted)}
+    .hero .cta-row{display:flex; gap:12px; justify-content:center; flex-wrap:wrap}
+    .btn{
+      border:1px solid transparent;
+      background:var(--primary);
+      color:white; padding:12px 18px; border-radius:12px; font-weight:700;
+      box-shadow:0 8px 24px rgba(59,130,246,.35);
+      transition:.25s;
+    }
+    .btn:hover{transform:translateY(-2px); background:var(--primary-2)}
+    .btn.alt{background:transparent; border-color:rgba(255,255,255,.12); color:var(--text)}
+    .btn.alt:hover{border-color:rgba(255,255,255,.3); transform:translateY(-2px)}
+
+    /* Sections */
+    section{padding:clamp(60px,8vw,100px) 20px}
+    .container{max-width:1180px; margin:0 auto}
+    .section-title{text-align:center; font-size:clamp(1.4rem,3vw,2rem); margin:0 0 28px}
+    .muted{text-align:center; color:var(--muted); margin:-14px auto 34px; max-width:760px}
+
+    /* Services grid */
+    .services{
+      display:grid; gap:26px;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+    }
+    @media (max-width:1000px){ .services{grid-template-columns:repeat(2,1fr)} }
+    @media (max-width:640px){ .services{grid-template-columns:1fr} }
+    .card{
+      background:var(--card); border:1px solid rgba(255,255,255,.06);
+      border-radius:var(--radius); padding:24px; box-shadow:var(--shadow);
+      transition:.35s; text-align:left; position:relative; overflow:hidden;
+    }
+    .card:hover{transform:translateY(-6px); box-shadow:0 16px 50px rgba(0,0,0,.6)}
+    .card img{width:64px; height:64px; object-fit:contain; margin-bottom:14px; filter:drop-shadow(0 8px 24px rgba(59,130,246,.25))}
+    .card h3{margin:6px 0 10px; font-size:1.05rem}
+    .card p{color:var(--muted); margin:0}
+
+    /* Success / Testimonials */
+    .success{background:linear-gradient(180deg, rgba(37,99,235,.08), transparent 35%)}
+    .swiper{width:100%; max-width:920px}
+    .swiper-slide{
+      background:var(--surface); border:1px solid rgba(255,255,255,.06);
+      color:var(--text); border-radius:16px; padding:22px;
+      box-shadow:var(--shadow); display:grid; grid-template-columns:auto 1fr; gap:16px; align-items:center;
+    }
+    .avatar{width:48px; height:48px; border-radius:50%; overflow:hidden; border:2px solid rgba(255,255,255,.1)}
+    .avatar img{width:100%; height:100%; object-fit:cover}
+    .stars{color:#facc15; margin-bottom:6px; letter-spacing:2px}
+
+    /* About blocks */
+    .about-grid{
+      display:grid; gap:26px; grid-template-columns:repeat(3,1fr);
+    }
+    @media (max-width:1000px){ .about-grid{grid-template-columns:1fr} }
+    .about-card{background:var(--card); border:1px solid rgba(255,255,255,.06); border-radius:var(--radius); padding:24px; box-shadow:var(--shadow)}
+
+    /* CTA */
+    .cta{
+      background:linear-gradient(90deg, rgba(59,130,246,.18), rgba(22,163,74,.18));
+      border-top:1px solid rgba(255,255,255,.06);
+      border-bottom:1px solid rgba(255,255,255,.06);
+      text-align:center;
+    }
+
+    /* Floating Socials */
+    .float-bar{
+      position:fixed; right:18px; bottom:18px; display:flex; flex-direction:column; gap:12px; z-index:1001;
+    }
+    .fabtn{
+      width:52px; height:52px; display:grid; place-items:center;
+      border-radius:50%; box-shadow:var(--shadow); border:1px solid rgba(255,255,255,.08);
+      background:var(--surface); color:var(--text); transition:.25s;
+    }
+    .fabtn:hover{transform:translateY(-2px) scale(1.04)}
+    .fabtn.wa{background:#25D366; color:#fff}
+    .fabtn.ig{background:#1f2937; color:#fff}
+
+    /* Scroll to top */
+    #scrollTopBtn{
+      display:none; position:fixed; right:18px; bottom:140px; z-index:1001;
+      width:46px; height:46px; border-radius:50%; border:0; cursor:pointer;
+      background:var(--primary); color:#fff; box-shadow:var(--shadow); transition:.25s;
+    }
+    #scrollTopBtn:hover{transform:translateY(-2px); background:var(--primary-2)}
+
+    /* Footer */
+    footer{padding:36px 20px; text-align:center; color:var(--muted)}
+    .social-inline{margin-top:10px; display:flex; gap:14px; justify-content:center}
+    .social-inline a{color:var(--muted); font-size:1.2rem; padding:8px; border-radius:10px; transition:.25s}
+    .social-inline a:hover{color:#fff; background:rgba(255,255,255,.06)}
+
+    /* Modal (Calendario) */
+    .modal{position:fixed; inset:0; background:rgba(0,0,0,.6); display:none; place-items:center; z-index:1002; padding:20px}
+    .modal.open{display:grid}
+    .modal-card{width:min(95vw,980px); height:min(85vh,760px); background:var(--surface); border:1px solid rgba(255,255,255,.08); border-radius:18px; box-shadow:var(--shadow); overflow:hidden; display:flex; flex-direction:column}
+    .modal-header{display:flex; align-items:center; justify-content:space-between; padding:14px 18px; border-bottom:1px solid rgba(255,255,255,.06)}
+    .modal-header h4{margin:0}
+    .modal-body{flex:1; overflow:hidden}
+    .modal-body iframe{width:100%; height:100%; border:0}
+    .close-btn{background:transparent; border:0; color:var(--text); font-size:1.4rem; cursor:pointer}
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="brand"><i class="fa-brands fa-whatsapp"></i> Tesis y Asesorías</div>
+    <button class="menu-toggle" aria-label="Abrir menú"><i class="fa-solid fa-bars"></i></button>
+    <nav id="mainNav">
+      <a href="#servicios">Servicios</a>
+      <a href="#casos">Casos de Éxito</a>
+      <a href="#about">Quiénes Somos</a>
+      <a href="#mision">Misión</a>
+      <a href="#vision">Visión</a>
+      <a href="#contacto">Contacto</a>
+      <a href="#agenda">Agenda</a>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero" id="inicio" aria-label="Hero">
+    <div class="hero-bg" id="heroParallax"></div>
+    <div class="container">
+      <h1>Asesoría Académica Profesional</h1>
+      <p>Más de 8 años apoyando a estudiantes y profesionales en la creación, corrección y publicación de proyectos académicos. Calidad, ética y resultados.</p>
+      <div class="cta-row">
+        <a class="btn" href="https://wa.me/573165159676" target="_blank" rel="noopener">Escríbenos por WhatsApp</a>
+        <button class="btn alt" id="openAgenda">Agendar cita</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Servicios -->
+  <section id="servicios">
+    <div class="container">
+      <h2 class="section-title">Servicios</h2>
+      <p class="muted">Acompañamiento integral con enfoque metodológico, redacción de alto nivel y normativas vigentes.</p>
+
+      <div class="services">
+        <div class="card">
+          <img src="https://cdn-icons-png.flaticon.com/512/3135/3135755.png" alt="Proyectos de grado" />
+          <h3>📊 Proyectos de grado</h3>
+          <p>Proyectos, artículos y monografías con sustento metodológico y asesoría continua.</p>
+        </div>
+        <div class="card">
+          <img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" alt="Humanización" />
+          <h3>🤝 Humanización</h3>
+          <p>Acompañamiento personalizado para comprender y dominar el proceso investigativo.</p>
+        </div>
+        <div class="card">
+          <img src="https://cdn-icons-png.flaticon.com/512/3039/3039381.png" alt="Revisión" />
+          <h3>🧐 Revisión y ajustes</h3>
+          <p>Corrección de estilo, coherencia, estructura y aplicación de normas institucionales.</p>
+        </div>
+        <div class="card">
+          <img src="https://cdn-icons-png.flaticon.com/512/3176/3176362.png" alt="Normas APA" />
+          <h3>📖 Ensayos y Normas APA</h3>
+          <p>Citación y referenciación precisas (APA y otros estilos) en todos tus trabajos.</p>
+        </div>
+        <div class="card">
+          <img src="https://cdn-icons-png.flaticon.com/512/1087/1087840.png" alt="Disminución de plagio" />
+          <h3>📉 Disminución de Plagio</h3>
+          <p>Técnicas de redacción + software especializado para garantizar originalidad.</p>
+        </div>
+        <div class="card">
+          <img src="https://cdn-icons-png.flaticon.com/512/3135/3135810.png" alt="Artículos científicos" />
+          <h3>📝 Artículos Científicos</h3>
+          <p>Estructura IMRyD, redacción, revisión por pares y preparación para revistas.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Casos de Éxito -->
+  <section id="casos" class="success">
+    <div class="container">
+      <h2 class="section-title">Casos de Éxito</h2>
+      <p class="muted">Testimonios reales que destacan nuestro acompañamiento y resultados.</p>
+
+      <div class="swiper">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <div class="avatar"><img src="https://i.pravatar.cc/100?img=12" alt="Avatar"></div>
+            <div>
+              <div class="stars">★★★★★</div>
+              “Gracias a su asesoría logré graduarme con honores. ¡100% recomendados!”
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="avatar"><img src="https://i.pravatar.cc/100?img=22" alt="Avatar"></div>
+            <div>
+              <div class="stars">★★★★★</div>
+              “Excelente acompañamiento en cada etapa del proyecto, siempre atentos.”
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="avatar"><img src="https://i.pravatar.cc/100?img=32" alt="Avatar"></div>
+            <div>
+              <div class="stars">★★★★★</div>
+              “Me ayudaron a estructurar mi tesis y aprobar sin correcciones. ¡Genial!”
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="avatar"><img src="https://i.pravatar.cc/100?img=42" alt="Avatar"></div>
+            <div>
+              <div class="stars">★★★★☆</div>
+              “Muy buena atención y rapidez en las correcciones.”
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="avatar"><img src="https://i.pravatar.cc/100?img=52" alt="Avatar"></div>
+            <div>
+              <div class="stars">★★★★★</div>
+              “Mi artículo científico fue aceptado en una revista internacional. ¡Clave su apoyo!”
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="avatar"><img src="https://i.pravatar.cc/100?img=62" alt="Avatar"></div>
+            <div>
+              <div class="stars">★★★★★</div>
+              “Reduje el plagio de 35% a menos del 5%. Servicio confiable.”
+            </div>
+          </div>
+        </div>
+        <!-- Pagination / Nav opcionales -->
+        <div class="swiper-pagination"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About / Misión / Visión -->
+  <section id="about">
+    <div class="container">
+      <h2 class="section-title">Quiénes Somos</h2>
+      <p class="muted">Equipo multidisciplinario con experiencia en investigación, redacción y metodologías académicas.</p>
+
+      <div class="about-grid">
+        <div class="about-card" id="mision">
+          <h3>Misión</h3>
+          <p>Ofrecer asesoría integral, accesible y personalizada para impulsar el éxito académico y profesional de nuestros estudiantes.</p>
+        </div>
+        <div class="about-card" id="vision">
+          <h3>Visión</h3>
+          <p>Ser referentes en Latinoamérica por la excelencia investigativa, ética y resultados medibles en cada proyecto asesorado.</p>
+        </div>
+        <div class="about-card">
+          <h3>Valores</h3>
+          <p>Ética, confidencialidad, excelencia, orientación al detalle y aprendizaje significativo.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="contacto" class="cta">
+    <div class="container">
+      <h2 class="section-title">¿Necesitas asesoría académica?</h2>
+      <p class="muted">Escríbenos y recibe atención personalizada de inmediato.</p>
+      <div class="cta-row" style="justify-content:center">
+        <a class="btn" href="https://wa.me/573165159676" target="_blank" rel="noopener">
+          <i class="fa-brands fa-whatsapp"></i> WhatsApp
+        </a>
+        <button class="btn alt" id="openAgenda2"><i class="fa-regular fa-calendar"></i> Agendar cita</button>
+      </div>
+      <div class="social-inline" aria-label="Redes sociales">
+        <a href="https://wa.me/573165159676" target="_blank" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+        <a href="https://www.instagram.com/tesisasesorias_2017" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Agenda (sección ancla para el menú) -->
+  <section id="agenda">
+    <div class="container">
+      <h2 class="section-title">Agenda tu cita</h2>
+      <p class="muted">Reserva en el horario que mejor te funcione. También puedes solicitar una llamada por WhatsApp.</p>
+      <div style="text-align:center">
+        <button class="btn" id="openAgenda3">Abrir calendario</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    © 2025 Tesis y Asesorías. Todos los derechos reservados.
+  </footer>
+
+  <!-- Floating Buttons -->
+  <div class="float-bar" aria-label="Accesos rápidos">
+    <a class="fabtn wa" href="https://wa.me/573165159676" target="_blank" rel="noopener" aria-label="WhatsApp">
+      <i class="fa-brands fa-whatsapp"></i>
+    </a>
+    <a class="fabtn ig" href="https://www.instagram.com/tesisasesorias_2017" target="_blank" rel="noopener" aria-label="Instagram">
+      <i class="fa-brands fa-instagram"></i>
+    </a>
+  </div>
+
+  <!-- Scroll to top -->
+  <button id="scrollTopBtn" aria-label="Subir al inicio"><i class="fa-solid fa-arrow-up"></i></button>
+
+  <!-- Modal Calendario -->
+  <div class="modal" id="agendaModal" aria-hidden="true" role="dialog" aria-label="Calendario de citas">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h4>Agenda tu asesoría</h4>
+        <button class="close-btn" id="closeAgenda" aria-label="Cerrar"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <!-- Reemplaza la URL de Calendly por la tuya -->
+        <iframe src="https://calendly.com/" title="Calendly"></iframe>
+        <!-- Alternativa Google Calendar (embed público) -->
+        <!-- <iframe src="https://calendar.google.com/calendar/embed?src=TU_CALENDAR_PUBLICO" title="Google Calendar"></iframe> -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Libs -->
+  <script src="https://unpkg.com/scrollreveal"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+  <script>
+    // ===== Menú responsive =====
+    const toggle = document.querySelector('.menu-toggle');
+    const nav = document.getElementById('mainNav');
+    toggle.addEventListener('click', () => nav.classList.toggle('active'));
+    // Cerrar menú al seleccionar opción (móvil)
+    nav.querySelectorAll('a').forEach(a=>{
+      a.addEventListener('click', ()=> nav.classList.remove('active'));
+    });
+
+    // ===== Scroll suave y elegante =====
+    document.querySelectorAll('header nav a').forEach(link=>{
+      link.addEventListener('click', e=>{
+        const href = link.getAttribute('href');
+        if(href && href.startsWith('#')){
+          e.preventDefault();
+          const target = document.querySelector(href);
+          if(target){
+            target.scrollIntoView({behavior:'smooth', block:'start'});
+          }
+        }
+      });
+    });
+
+    // ===== Parallax suave en Hero =====
+    const heroBg = document.getElementById('heroParallax');
+    window.addEventListener('scroll', ()=>{
+      const y = window.scrollY * 0.3;
+      heroBg.style.transform = `translateY(${y}px)`;
+    });
+
+    // ===== ScrollReveal =====
+    ScrollReveal().reveal('.card', { interval: 120, origin:'bottom', distance:'36px', duration:800, easing:'ease-in-out', opacity:0 });
+    ScrollReveal().reveal('.about-card', { interval: 160, origin:'bottom', distance:'36px', duration:800, opacity:0 });
+    ScrollReveal().reveal('.section-title', { origin:'top', distance:'20px', duration:700 });
+
+    // ===== Swiper (testimonios) =====
+    const swiper = new Swiper('.swiper', {
+      loop:true,
+      autoplay:{ delay: 3200 },
+      speed:700,
+      grabCursor:true,
+      spaceBetween:16,
+      pagination:{ el: '.swiper-pagination', clickable:true }
+    });
+
+    // ===== Botón "Subir al inicio" =====
+    const upBtn = document.getElementById('scrollTopBtn');
+    const showAt = 220;
+    window.addEventListener('scroll', ()=>{
+      if (window.scrollY > showAt){
+        upBtn.style.display = 'grid';
+      } else {
+        upBtn.style.display = 'none';
+      }
+    });
+    upBtn.addEventListener('click', ()=> window.scrollTo({top:0, behavior:'smooth'}));
+
+    // ===== Modal Calendario =====
+    const agendaModal = document.getElementById('agendaModal');
+    const openAgenda = document.getElementById('openAgenda');
+    const openAgenda2 = document.getElementById('openAgenda2');
+    const openAgenda3 = document.getElementById('openAgenda3');
+    const closeAgenda = document.getElementById('closeAgenda');
+
+    function openModal(){ agendaModal.classList.add('open'); agendaModal.setAttribute('aria-hidden','false'); }
+    function closeModal(){ agendaModal.classList.remove('open'); agendaModal.setAttribute('aria-hidden','true'); }
+
+    [openAgenda, openAgenda2, openAgenda3].forEach(btn=>{
+      if(btn){ btn.addEventListener('click', openModal); }
+    });
+    if(closeAgenda){ closeAgenda.addEventListener('click', closeModal); }
+    agendaModal.addEventListener('click', (e)=> { if(e.target === agendaModal) closeModal(); });
+
+    // Accesibilidad: cerrar con Esc
+    window.addEventListener('keydown', (e)=> { if(e.key === 'Escape') closeModal(); });
+  </script>
+</body>
+</html>
